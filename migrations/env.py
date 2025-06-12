@@ -8,6 +8,8 @@ from sqlalchemy import pool
 from alembic import context
 from sqlmodel import SQLModel
 from core.entities.event import Event  # noqa: F401
+from core.entities.user import User  # noqa: F401
+from core.entities.registration import EventRegistration  # noqa: F401
 from config import settings
 
 # this is the Alembic Config object, which provides
