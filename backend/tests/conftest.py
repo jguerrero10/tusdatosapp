@@ -1,9 +1,11 @@
 import sys
 from pathlib import Path
 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from adapters.database.repositories.event_repository import SQLEventRepository
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 
 import pytest
 from fastapi.testclient import TestClient
@@ -57,3 +59,7 @@ def auth_client(client):
 @pytest.fixture
 def event_repository():
     return SQLEventRepository(session)
+
+@pytest.fixture
+def db_session():
+    return Session(bind=connection)

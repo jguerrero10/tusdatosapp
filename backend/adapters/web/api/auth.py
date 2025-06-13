@@ -37,3 +37,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = D
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     token = create_access_token(data={"sub": str(user.email)})
     return {"access_token": token, "token_type": "bearer"}
+
+@router.get("/me", response_model=User)
+def get_current_user_info(current_user: User = Depends(get_current_user)):
+    """Get the current logged-in user's information."""
+    return current_user

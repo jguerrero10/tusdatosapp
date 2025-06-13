@@ -95,3 +95,30 @@ def test_get_current_user_user_not_found(monkeypatch):
 
     assert exc_info.value.status_code == 401
     assert exc_info.value.detail == "User not found"
+
+def test_register_speaker(client):
+    # Paso 1: Registrar y loguear un usuario
+    client.post(
+        "/auth/register",
+        json={"email": "speaker@example.com", "password": "secret123", "full_name": "Speaker User"},
+    )
+    login_response = client.post(
+        "/auth/login", data={"username": "speaker@example.com", "password": "secret123"}
+    )
+    assert login_response.status_code == 200
+    token = login_response.json()["access_token"]
+
+    # Paso 2: Llamar al endpoint de registro como speaker
+    response = client.post(
+        "/auth/register-speaker",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 200
+    assert response.json() == {"message": "User registered as speaker"}
+
+    profile_response = client.get(
+        "/auth/me",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert profile_response.status_code == 200
+    assert profile_response.json()["is_speaker"] is True
