@@ -49,12 +49,16 @@ La aplicación permite:
 1. Clona el repositorio:
     ```bash
     git clone https://github.com/jguerrero10/tusdatosapp.git
-    cd mis-eventos
+    cd tusdatosapp
     ```
 2. Editar y/o copiar el archivo `.env.example` a `.env` en el directorio `backend/` y ajustar las variables de entorno según sea necesario.
 3. Levantar el entorno completo:
     ```bash
     docker-compose up --build
+    ```
+5. Correr las migraciones para el backend:
+    ```bash
+    docker-compose exec backend poetry run python migrate.py
     ```
 4. Acceder al backend en `http://localhost:8000` y al frontend en `http://localhost:5173`.
 
